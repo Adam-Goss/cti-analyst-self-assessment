@@ -78,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('continue-btn').focus();
                 document.getElementById('continue-btn').addEventListener('click', () => {
                     infoStepShown = true;
-                    currentQuestionIndex++;
                     displayQuestion();
                 });
             }, 200);
