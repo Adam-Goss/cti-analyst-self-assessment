@@ -9,9 +9,9 @@
     },
     "questions": [
         {
-        "domain": "Technical Foundations",
+            "domain": "Technical Foundations",
         "question": "An analyst wants to capture all network traffic on an interface destined for port 53. Which 'tcpdump' command would they use?",
-        "options": [
+            "options": [
             "tcpdump -i eth0 src port 53",
             "tcpdump -i eth0 dst port 53",
             "tcpdump -i eth0 port 22",
@@ -40,14 +40,14 @@
             "To assign IP addresses to devices on a network.",
             "To encrypt web traffic using SSL/TLS.",
             "To translate human-readable domain names into machine-readable IP addresses."
-        ],
-        "answer": 3,
-        "points": 10
+            ],
+            "answer": 3,
+            "points": 10
         },
         {
-        "domain": "Technical Foundations",
+            "domain": "Technical Foundations",
         "question": "Which of the following statements best describes a key difference between TCP and UDP?",
-        "options": [
+            "options": [
             "TCP is connectionless and faster, while UDP is connection-oriented and reliable.",
             "UDP is used for web browsing, while TCP is used for video streaming.",
             "TCP is a connection-oriented protocol that ensures reliable data delivery, whereas UDP is connectionless and does not guarantee delivery.",
@@ -66,19 +66,19 @@
             "List files in reverse alphabetical order."
         ],
         "answer": 2,
-        "points": 10
+            "points": 10
         },
         {
-        "domain": "Threat Intelligence Fundamentals",
+            "domain": "Threat Intelligence Fundamentals",
         "question": "Which type of intelligence provides a high-level overview of the threat landscape and is primarily intended for executive leadership and strategic decision-making?",
-        "options": [
+            "options": [
             "Tactical Intelligence",
             "Technical Intelligence",
             "Operational Intelligence",
             "Strategic Intelligence"
-        ],
-        "answer": 3,
-        "points": 10
+            ],
+            "answer": 3,
+            "points": 10
         },
         {
         "domain": "Threat Intelligence Fundamentals",
@@ -129,9 +129,9 @@
         "points": 10
         },
         {
-        "domain": "Analytical Skills",
+            "domain": "Analytical Skills",
         "question": "An analyst is presented with several competing explanations for a security incident. Which structured analytical technique would be most appropriate for systematically evaluating each possibility against the available evidence?",
-        "options": [
+            "options": [
             "Brainstorming",
             "Mind Mapping",
             "Analysis of Competing Hypotheses (ACH)",
@@ -144,7 +144,7 @@
         "domain": "Analytical Skills",
         "question": "An analyst quickly concludes that an intrusion is the work of a well-known Russian APT group because some of the observed TTPs are similar to a recent high-profile report, ignoring evidence that points to a different actor. This is an example of which cognitive bias?",
         "options": [
-            "Anchoring Bias",
+                "Anchoring Bias",
             "Confirmation Bias",
             "Hindsight Bias",
             "Fundamental Attribution Error"
@@ -516,7 +516,7 @@
         "domain": "Analytical Skills",
         "question": "The tendency for analysts to favor information that confirms their pre-existing beliefs or hypotheses is known as:",
         "options": [
-            "Availability Heuristic",
+                "Availability Heuristic",
             "Anchoring Bias",
             "Confirmation Bias",
             "Clustering Illusion"
@@ -532,14 +532,14 @@
             "To systematically generate a wide range of ideas or hypotheses in a group setting without premature criticism.",
             "To write the final intelligence report.",
             "To limit the number of possible explanations for an event."
-        ],
-        "answer": 1,
+            ],
+            "answer": 1,
         "points": 10
         },
         {
         "domain": "Analytical Skills",
         "question": "When an analyst uses 'words of estimative probability' (e.g., 'likely,' 'improbable'), what is the primary purpose?",
-        "options": [
+            "options": [
             "To make the report sound more academic and complex.",
             "To express a level of uncertainty or confidence in an analytical judgment in a standardized way.",
             "To avoid making a clear assessment.",
@@ -552,7 +552,7 @@
         "domain": "Tools and Technologies",
         "question": "Which tool is specifically designed for static and dynamic analysis of potentially malicious files in a safe, isolated environment?",
         "options": [
-            "Wireshark",
+                "Wireshark",
             "A Cuckoo Sandbox",
             "Maltego",
             "Splunk"
@@ -688,9 +688,9 @@
             "A vulnerability that affects only Linux systems.",
             "A vulnerability that is publicly known but for which no patch is available.",
             "A vulnerability that was patched on the same day it was discovered."
-        ],
-        "answer": 2,
-        "points": 10
+            ],
+            "answer": 2,
+            "points": 10
         },
         {
         "domain": "Industry Knowledge",
@@ -969,9 +969,9 @@
         "points": 10
         },
         {
-        "domain": "Communication and Collaboration",
+            "domain": "Communication and Collaboration",
         "question": "What is the primary drawback of using vague or ambiguous language (e.g., 'the situation might get worse') in an intelligence report?",
-        "options": [
+            "options": [
             "It makes the report more exciting to read.",
             "It demonstrates a high level of analytical skill.",
             "It prevents the decision-maker from accurately assessing risk and taking appropriate action.",
@@ -1024,14 +1024,14 @@
             "It provides a secure, automated transport mechanism for sharing cyber threat information in a standardized way.",
             "It guarantees that all shared intelligence is 100% accurate.",
             "It is a social media platform for analysts."
-        ],
-        "answer": 1,
-        "points": 10
+            ],
+            "answer": 1,
+            "points": 10
         },
         {
-        "domain": "Industry Knowledge",
+            "domain": "Industry Knowledge",
         "question": "The term 'living off the land' refers to a TTP where adversaries:",
-        "options": [
+            "options": [
             "Use custom, exotic malware that is easy to detect.",
             "Conduct their operations exclusively from a specific geographic region.",
             "Use tools and software that are already present on the target system to conduct their attack.",
@@ -1060,8 +1060,8 @@
             "The tactics and techniques used by adversaries *before* they gain initial access to a network.",
             "Mobile-specific attack techniques.",
             "Industrial control system (ICS) attacks."
-        ],
-        "answer": 1,
+            ],
+            "answer": 1,
         "points": 10
         },
         {
@@ -1807,6 +1807,6 @@
         ],
         "answer": 2,
         "points": 10
-    }
-]
-}
+        }
+    ]
+} 
