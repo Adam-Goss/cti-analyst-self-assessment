@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Calculate scores
         ctiAnswers.forEach(userAnswer => {
-            const question = allQuestions[userAnswer.questionIndex];
+            const question = combinedQuestions[userAnswer.questionIndex];
             maxDomainScores[question.domain] += question.points;
             if (userAnswer.answerIndex === question.answer) {
                 domainScores[question.domain] += question.points;
@@ -443,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         userAnswers.forEach((userAnswer, index) => {
-            const question = allQuestions[userAnswer.questionIndex];
+            const question = combinedQuestions[index];
             const isCtiQuestion = 'domain' in question;
             const userAnswerIndex = userAnswer.answerIndex;
 
