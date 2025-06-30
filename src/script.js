@@ -17,18 +17,39 @@ document.addEventListener('DOMContentLoaded', () => {
         'Technical Foundations': '💻',
         'Threat Intelligence Fundamentals': '🕵️‍♂️',
         'Analytical Skills': '🧠',
-        'Tool and Technologies': '🛠️',
+        'Tools and Technologies': '🛠️',
         'Communication and Collaboration': '💬',
         'Industry Knowledge': '🌐',
         'Learning Style': '🎓',
         'Career Goals': '🧑‍💼'
     };
 
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
     async function loadQuestions() {
         try {
             const res = await fetch('../data/questions.json');
             const data = await res.json();
-            allQuestions = data.questions;
+            const allFetchedQuestions = data.questions;
+            const domains = Object.keys(data.domains);
+
+            // Shuffle all questions first
+            shuffleArray(allFetchedQuestions);
+
+            // For each domain, select up to 5 questions
+            const selectedQuestions = [];
+            for (const domain of domains) {
+                const domainQuestions = allFetchedQuestions.filter(q => q.domain === domain);
+                selectedQuestions.push(...domainQuestions.slice(0, 5));
+            }
+
+            // Final list of 30 questions (5 per domain)
+            allQuestions = selectedQuestions;
             allDomainFeedback = data.domains;
 
             const learningRes = await fetch('../data/learning_style.json');
@@ -496,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
             `;
         }
-        if(weakestDomains.includes('Tool and Technologies')) {
+        if(weakestDomains.includes('Tools and Technologies')) {
              recommendedServicesHTML += `
                             <div class="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start gap-4">
                                 <span class="text-2xl mt-1">🎯</span>
