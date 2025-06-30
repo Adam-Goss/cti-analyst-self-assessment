@@ -1,0 +1,96 @@
+{
+    "domains": {
+        "Technical Foundations": "Your weakest area is Technical Foundations. We suggest improving your understanding of networking, operating systems, and the command line.",
+        "Threat Intelligence Fundamentals": "Your weakest area is Threat Intelligence Fundamentals. We suggest focusing on the intelligence cycle, threat modeling, and various intelligence types.",
+        "Analytical Skills": "Your weakest area is Analytical Skills. We suggest practicing critical thinking, hypothesis testing, and cognitive bias recognition.",
+        "Tool and Technologies": "Your weakest area is Tools and Technologies. We suggest getting hands-on experience with SIEMs, TIPs, and data analysis tools like Wireshark or Maltego.",
+        "Communication and Collaboration": "Your weakest area is Communication and Collaboration. We suggest working on your technical writing and presentation skills.",
+        "Industry Knowledge": "Your weakest area is Industry Knowledge. We suggest reading up on major threat actor groups, common TTPs, and relevant industry frameworks like MITRE ATT&CK."
+    },
+    "questions": [
+        {
+            "domain": "Technical Foundations",
+            "question": "Which of the following is NOT a private IP address range?",
+            "options": [
+                "10.0.0.0/8",
+                "172.16.0.0/12",
+                "192.168.0.0/16",
+                "1.1.1.1/32"
+            ],
+            "answer": 3,
+            "points": 10
+        },
+        {
+            "domain": "Technical Foundations",
+            "question": "What does the 'chmod 755' command do in a Unix-like operating system?",
+            "options": [
+                "Sets read, write, and execute permissions for the owner, and read and execute permissions for group and others.",
+                "Sets read and write permissions for everyone.",
+                "Removes all permissions for everyone.",
+                "Makes a file executable only by the root user."
+            ],
+            "answer": 0,
+            "points": 10
+        },
+        {
+            "domain": "Threat Intelligence Fundamentals",
+            "question": "What is the first phase of the traditional intelligence cycle?",
+            "options": [
+                "Collection",
+                "Processing",
+                "Analysis",
+                "Planning and Direction"
+            ],
+            "answer": 3,
+            "points": 10
+        },
+        {
+            "domain": "Analytical Skills",
+            "question": "Which cognitive bias involves relying too heavily on the first piece of information offered?",
+            "options": [
+                "Confirmation Bias",
+                "Anchoring Bias",
+                "Availability Heuristic",
+                "Hindsight Bias"
+            ],
+            "answer": 1,
+            "points": 15
+        },
+        {
+            "domain": "Tool and Technologies",
+            "question": "Which tool is primarily used for network traffic analysis?",
+            "options": [
+                "YARA",
+                "Volatility",
+                "Wireshark",
+                "Metasploit"
+            ],
+            "answer": 2,
+            "points": 10
+        },
+        {
+            "domain": "Communication and Collaboration",
+            "question": "What is the primary purpose of the Traffic Light Protocol (TLP)?",
+            "options": [
+                "To encrypt network traffic.",
+                "To designate the sensitivity of shared information and how it can be disseminated.",
+                "To track the location of threat actors.",
+                "To automate malware analysis."
+            ],
+            "answer": 1,
+            "points": 10
+        },
+        {
+            "domain": "Industry Knowledge",
+            "question": "The MITRE ATT&CK framework primarily focuses on cataloging what?",
+            "options": [
+                "Vulnerabilities and Exposures (CVEs)",
+                "Adversary Tactics, Techniques, and Procedures (TTPs)",
+                "Software Weaknesses (CWEs)",
+                "Security Controls for Federal Information Systems"
+            ],
+            "answer": 1,
+            "points": 15
+        }
+    ]
+} 

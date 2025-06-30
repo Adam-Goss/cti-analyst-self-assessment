@@ -1,0 +1,44 @@
+{
+    "questions": [
+        {
+            "type": "Learning Style",
+            "question": "How do you prefer to learn new technical skills?",
+            "options": [
+                "Through hands-on labs and practical exercises.",
+                "By reading documentation, articles, and books.",
+                "Watching video tutorials and lectures.",
+                "In a structured, instructor-led course."
+            ]
+        },
+        {
+            "type": "Learning Style",
+            "question": "When faced with a complex problem, what is your first step?",
+            "options": [
+                "Break the problem down into smaller components.",
+                "Search for existing solutions or examples online.",
+                "Collaborate with a peer or mentor.",
+                "Start experimenting with potential solutions immediately."
+            ]
+        },
+        {
+            "type": "Career Goals",
+            "question": "Which area of threat intelligence are you most interested in pursuing?",
+            "options": [
+                "Malware Analysis",
+                "Threat Actor Tracking",
+                "Strategic Intelligence and Reporting",
+                "Incident Response Support"
+            ]
+        },
+        {
+            "type": "Career Goals",
+            "question": "What is your primary motivation for a career in CTI?",
+            "options": [
+                "Solving complex analytical challenges.",
+                "Protecting organizations from cyber threats.",
+                "Continuous learning and skill development.",
+                "Being part of a dynamic and impactful field."
+            ]
+        }
+    ]
+} 
