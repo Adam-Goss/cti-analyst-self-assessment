@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadQuestions() {
         try {
-            const res = await fetch('../data/questions.json');
+            const res = await fetch('./data/questions.json');
             const data = await res.json();
             const allFetchedQuestions = data.questions;
             const domains = Object.keys(data.domains);
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             allQuestions = selectedQuestions;
             allDomainFeedback = data.domains;
 
-            const learningRes = await fetch('../data/learning_style.json');
+            const learningRes = await fetch('./data/learning_style.json');
             const learningData = await learningRes.json();
             learningQuestions = learningData.questions;
             
