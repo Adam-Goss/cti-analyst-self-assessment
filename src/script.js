@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'Communication and Collaboration': '💬',
         'Industry Knowledge': '🌐',
         'Learning Style': '🎓',
-        'Career Goals': '🚀'
+        'Career Goals': '🧑‍💼'
     };
 
     async function loadQuestions() {
@@ -296,15 +296,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (weakestDomains.length > 0) {
             resultsHTML += `
-                <div class="my-8 p-4 bg-yellow-50 border-l-4 border-yellow-400 flex gap-4 items-start">
-                    <span class="text-3xl mt-1">⚠️</span>
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">Areas for Improvement</h3>
+                <section class="my-10">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2 text-yellow-700">⚠️ Areas for Improvement</h3>
+                    <div class="flex flex-col gap-4">
             `;
             weakestDomains.forEach(domain => {
-                resultsHTML += `<p class="mb-2 flex items-center gap-2"><span>${domainEmojis[domain] || '❓'}</span><strong>${domain}:</strong> ${allDomainFeedback[domain]}</p>`;
+                resultsHTML += `
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 rounded-lg p-4 flex items-start gap-4 shadow-sm">
+                            <span class="text-2xl mt-1">${domainEmojis[domain] || '❓'}</span>
+                            <div>
+                                <div class="font-semibold text-lg text-yellow-800 mb-1">An area to work on: ${domain}</div>
+                                <div class="text-yellow-900 text-base leading-relaxed">${allDomainFeedback[domain]}</div>
+                            </div>
+                        </div>
+                `;
             });
-            resultsHTML += `</div></div>`;
+            resultsHTML += `</div></section>`;
         }
 
         // --- Future Roadmap Section ---
@@ -326,38 +333,79 @@ document.addEventListener('DOMContentLoaded', () => {
         // Generic advice logic
         let advice = '';
         if (preferredLearningStyle && areaOfInterest) {
+            const areaOfInterestBold = `<b>${areaOfInterest}</b>`;
+            let advicePoints = [];
             if (preferredLearningStyle.includes('hands-on')) {
-                advice = `Look for practical labs, sandbox exercises, and open-source tools related to <b>${areaOfInterest}</b>.`;
+                advicePoints = [
+                    `Look for practical labs and sandbox exercises.`,
+                    `Get familiar with open-source tools for ${areaOfInterestBold}.`,
+                    `Try building small projects to apply your skills.`
+                ];
             } else if (preferredLearningStyle.includes('reading')) {
-                advice = `Seek out books, whitepapers, and industry reports focused on <b>${areaOfInterest}</b>.`;
+                advicePoints = [
+                    `Seek out books and whitepapers on ${areaOfInterestBold}.`,
+                    `Follow blogs from security researchers and intelligence firms.`,
+                    `Study industry reports and case studies.`
+                ];
             } else if (preferredLearningStyle.includes('video')) {
-                advice = `Find online video courses and recorded webinars about <b>${areaOfInterest}</b>.`;
+                advicePoints = [
+                    `Find online video courses and recorded webinars about ${areaOfInterestBold}.`,
+                    `Watch walkthroughs on YouTube from security conferences.`,
+                    `Follow creators who specialize in your area of interest.`
+                ];
             } else if (preferredLearningStyle.includes('instructor-led')) {
-                advice = `Consider formal training programs and workshops in <b>${areaOfInterest}</b>.`;
+                advicePoints = [
+                    `Consider formal training programs and workshops in ${areaOfInterestBold}.`,
+                    `Look for relevant certifications to guide your learning path.`,
+                    `Join local or online study groups.`
+                ];
             } else {
-                advice = `Explore a variety of resources to deepen your expertise in <b>${areaOfInterest}</b>.`;
+                advicePoints = [
+                    `Explore a variety of resources to deepen your expertise in ${areaOfInterestBold}.`
+                ];
             }
+            advice = `<ul class="list-disc list-inside mt-2 text-blue-800 text-base leading-relaxed">${advicePoints.map(p => `<li>${p}</li>`).join('')}</ul>`;
         }
 
         if (preferredLearningStyle && areaOfInterest) {
             resultsHTML += `
-                <div class="my-8 p-4 bg-blue-50 border-l-4 border-blue-400 flex gap-4 items-start">
-                    <span class="text-3xl mt-1">🧭</span>
-                    <div>
-                        <h3 class="text-xl font-bold mb-2">Future Roadmap</h3>
-                        <p><b>Preferred Learning Style:</b> ${preferredLearningStyle}</p>
-                        <p><b>Area of Interest in CTI:</b> ${areaOfInterest}</p>
-                        <p class="mt-2">${advice}</p>
+                <section class="my-10">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2 text-blue-700">🧭 Future Roadmap</h3>
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-md">
+                        <div class="grid md:grid-cols-2 gap-6 items-start">
+                            <!-- Left side: Your choices -->
+                            <div class="flex flex-col gap-4">
+                                <div>
+                                    <div class="text-sm font-semibold text-blue-600 mb-1">YOUR PREFERRED LEARNING STYLE</div>
+                                    <div class="text-base font-bold text-blue-900 flex items-center gap-2">
+                                        <span>${domainEmojis['Learning Style']}</span>
+                                        <span>${preferredLearningStyle}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-semibold text-blue-600 mb-1">YOUR AREA OF INTEREST</div>
+                                    <div class="text-base font-bold text-blue-900 flex items-center gap-2">
+                                        <span>${domainEmojis['Career Goals']}</span>
+                                        <span>${areaOfInterest}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Right side: Advice -->
+                            <div>
+                                 <div class="text-sm font-semibold text-blue-600 mb-1">OUR SUGGESTIONS</div>
+                                 ${advice}
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </section>
             `;
         }
 
         // Answer Review Section
         let answerReviewHTML = `
-            <div class="my-8">
+            <section class="my-10">
                 <details>
-                    <summary class="text-xl font-bold cursor-pointer hover:text-blue-600">📝 Review Your Answers</summary>
+                    <summary class="text-xl font-bold cursor-pointer hover:text-[#C6372F]">📝 Review Your Answers</summary>
                     <div class="mt-4 border-t pt-4">
         `;
 
@@ -402,9 +450,73 @@ document.addEventListener('DOMContentLoaded', () => {
             answerReviewHTML += `</ul></div>`;
         });
         
-        answerReviewHTML += `</div></details></div>`;
+        answerReviewHTML += `</div></details></section>`;
 
         resultsHTML += answerReviewHTML;
+
+        // --- Recommended Services Section ---
+        let recommendedServicesHTML = `
+            <section class="my-10">
+                <details>
+                    <summary class="text-xl font-bold cursor-pointer hover:text-[#C6372F]">🚀 Next Steps: Recommended Services</summary>
+                    <div class="mt-4 border-t pt-6">
+                        <p class="mb-6 text-base text-gray-700">Based on your results, here are some professional services from <a href="https://kravensecurity.com/" target="_blank" class="text-[#C6372F] hover:underline font-semibold">Kraven Security</a> that can help you level up your CTI skills.</p>
+                        <div class="space-y-4">
+        `;
+        
+        // General recommendations
+        recommendedServicesHTML += `
+                            <div class="bg-gray-50 rounded-lg p-4 flex items-start gap-4">
+                                <span class="text-2xl mt-1">🧑‍🏫</span>
+                                <div>
+                                    <h4 class="font-bold text-lg">One-on-One Coaching</h4>
+                                    <p class="text-gray-800">For personalized guidance, one-on-one coaching can help you build a custom learning plan to address your specific areas for improvement.</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4 flex items-start gap-4">
+                                 <span class="text-2xl mt-1">💼</span>
+                                <div>
+                                    <h4 class="font-bold text-lg">Interview & Resume Assessment</h4>
+                                    <p class="text-gray-800">Struggling with landing a role in CTI? This service can help you improve your resume and prepare for interviews.</p>
+                                </div>
+                            </div>
+        `;
+
+        // Dynamic recommendations based on weakest domains
+        if(weakestDomains.includes('Analytical Skills')) {
+            recommendedServicesHTML += `
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start gap-4">
+                                <span class="text-2xl mt-1">🎯</span>
+                                <div>
+                                    <h4 class="font-bold text-lg text-green-800">Recommended Course: Structured Analytical Techniques</h4>
+                                    <p class="text-green-900">Since you're looking to improve your analytical skills, this course can help you sharpen your thinking and reduce bias in your analysis.</p>
+                                </div>
+                            </div>
+            `;
+        }
+        if(weakestDomains.includes('Tool and Technologies')) {
+             recommendedServicesHTML += `
+                            <div class="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start gap-4">
+                                <span class="text-2xl mt-1">🎯</span>
+                                <div>
+                                    <h4 class="font-bold text-lg text-green-800">Recommended Courses: MISP & Python</h4>
+                                    <p class="text-green-900">To improve with tools, check out courses like 'Threat Intelligence with MISP' or 'Python Threat Hunting Tools' to build hands-on technical skills.</p>
+                                </div>
+                            </div>
+            `;
+        }
+        
+        recommendedServicesHTML += `
+                        </div>
+                        <div class="text-center mt-6">
+                            <a href="https://kravensecurity.com/" target="_blank" class="text-[#C6372F] hover:underline font-semibold">Explore all services and courses →</a>
+                        </div>
+                    </div>
+                </details>
+            </section>
+        `;
+
+        resultsHTML += recommendedServicesHTML;
         
         resultsHTML += `
             <div class="text-center mt-8">

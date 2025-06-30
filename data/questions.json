@@ -1,11 +1,11 @@
 {
     "domains": {
-        "Technical Foundations": "Your weakest area is Technical Foundations. We suggest improving your understanding of networking, operating systems, and the command line.",
-        "Threat Intelligence Fundamentals": "Your weakest area is Threat Intelligence Fundamentals. We suggest focusing on the intelligence cycle, threat modeling, and various intelligence types.",
-        "Analytical Skills": "Your weakest area is Analytical Skills. We suggest practicing critical thinking, hypothesis testing, and cognitive bias recognition.",
-        "Tool and Technologies": "Your weakest area is Tools and Technologies. We suggest getting hands-on experience with SIEMs, TIPs, and data analysis tools like Wireshark or Maltego.",
-        "Communication and Collaboration": "Your weakest area is Communication and Collaboration. We suggest working on your technical writing and presentation skills.",
-        "Industry Knowledge": "Your weakest area is Industry Knowledge. We suggest reading up on major threat actor groups, common TTPs, and relevant industry frameworks like MITRE ATT&CK."
+        "Technical Foundations": "We suggest improving your understanding of networking, operating systems, and the command line.",
+        "Threat Intelligence Fundamentals": "We suggest focusing on the intelligence cycle, threat modeling, and various intelligence types.",
+        "Analytical Skills": "We suggest practicing critical thinking, hypothesis testing, and cognitive bias recognition.",
+        "Tool and Technologies": "We suggest getting hands-on experience with SIEMs, TIPs, and data analysis tools like Wireshark or Maltego.",
+        "Communication and Collaboration": "We suggest working on your technical writing and presentation skills.",
+        "Industry Knowledge": "We suggest reading up on major threat actor groups, common TTPs, and relevant industry frameworks like MITRE ATT&CK."
     },
     "questions": [
         {
