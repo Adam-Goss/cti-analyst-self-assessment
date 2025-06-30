@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let reviewMode = false;
     let reviewIndex = null;
     let infoStepShown = false;
+    let combinedQuestions = [];
 
     // Emoji map for domains
     const domainEmojis = {
@@ -56,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const learningData = await learningRes.json();
             learningQuestions = learningData.questions;
             
+            // Store combinedQuestions once
+            combinedQuestions = [...allQuestions, ...learningQuestions];
             startQuiz();
         } catch (error) {
             console.error("Failed to load questions:", error);
@@ -77,15 +80,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function setInnerHTMLIfChanged(element, html) {
+        // Only update innerHTML if content is different
+        if (element.innerHTML !== html) {
+            element.innerHTML = html;
+        }
+    }
+
     function displayQuestion(direction = 'forward') {
         if (animating) return;
         animating = true;
-        const combinedQuestions = [...allQuestions, ...learningQuestions];
+        // Use precomputed combinedQuestions
         // Show info step before learning style questions
         if (!infoStepShown && currentQuestionIndex === allQuestions.length) {
             quizContainer.classList.add('opacity-0', direction === 'forward' ? 'translate-x-8' : '-translate-x-8');
             setTimeout(() => {
-                quizContainer.innerHTML = `
+                const infoHTML = `
                     <div class="flex flex-col items-center justify-center min-h-[200px] animate-fade-in">
                         <div class="text-blue-700 text-3xl mb-4">ℹ️</div>
                         <h2 class="text-xl font-bold mb-2">Learning Style & Areas of Interest</h2>
@@ -93,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <button id="continue-btn" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all">Continue</button>
                     </div>
                 `;
+                setInnerHTMLIfChanged(quizContainer, infoHTML);
                 quizContainer.classList.remove('opacity-0', 'translate-x-8', '-translate-x-8');
                 quizContainer.classList.add('opacity-100');
                 setTimeout(() => { animating = false; }, 200);
@@ -145,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             });
 
-            quizContainer.innerHTML = `
+            const questionHTML = `
                 <div>
                     <div class="mb-4">
                         <div class="flex items-center justify-between mb-1">
@@ -159,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="relative flex flex-col items-center">
                         ${domainBadge}
                         <h2 class="text-2xl font-bold mb-6 text-center">${question.question}</h2>
-                        <div class="w-full">${optionsHTML}</div>
+                        <div class="w-full" id="options-container">${optionsHTML}</div>
                         <div class="flex justify-between mt-8 w-full">
                             <button id="back-btn" class="${currentQuestionIndex === 0 ? 'invisible' : ''} bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all" aria-label="Go to previous question">← Back</button>
                             <button id="next-btn" class="${reviewMode ? '' : 'hidden'} bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all" aria-label="Go to next question">Next →</button>
@@ -167,52 +178,54 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `;
-
-            // Animate in
+            setInnerHTMLIfChanged(quizContainer, questionHTML);
             quizContainer.classList.remove('opacity-0', 'translate-x-8', '-translate-x-8');
             quizContainer.classList.add('opacity-100');
             setTimeout(() => { animating = false; }, 200);
 
-            // Option button click/keyboard
-            document.querySelectorAll('[data-index]').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    if (animating) return;
-                    const selectedIndex = parseInt(e.currentTarget.getAttribute('data-index'));
+            // Event delegation for option buttons
+            const optionsContainer = document.getElementById('options-container');
+            if (optionsContainer) {
+                optionsContainer.onclick = (e) => {
+                    const button = e.target.closest('[data-index]');
+                    if (!button || animating) return;
+                    const selectedIndex = parseInt(button.getAttribute('data-index'));
                     if (reviewMode) {
-                        // Overwrite previous answer
                         userAnswers[currentQuestionIndex].answerIndex = selectedIndex;
                         reviewIndex = selectedIndex;
                         displayQuestion();
                     } else {
                         handleAnswer(selectedIndex);
                     }
-                });
-                button.addEventListener('keydown', (e) => {
+                };
+                optionsContainer.onkeydown = (e) => {
+                    const button = e.target.closest('[data-index]');
+                    if (!button) return;
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
                         button.click();
                     }
-                });
-            });
+                };
+            }
 
             // Back button
             const backBtn = document.getElementById('back-btn');
             if (backBtn && currentQuestionIndex > 0) {
-                backBtn.addEventListener('click', () => {
+                backBtn.onclick = () => {
                     if (animating) return;
                     currentQuestionIndex--;
                     displayQuestion('backward');
-                });
+                };
             }
 
             // Next button
             const nextBtn = document.getElementById('next-btn');
             if (nextBtn && reviewMode) {
-                nextBtn.addEventListener('click', () => {
+                nextBtn.onclick = () => {
                     if (animating) return;
                     currentQuestionIndex++;
                     displayQuestion('forward');
-                });
+                };
             }
         }, 200);
     }
@@ -429,9 +442,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="mt-4 border-t pt-4">
         `;
 
-        const combinedQuestions = [...allQuestions, ...learningQuestions];
         userAnswers.forEach((userAnswer, index) => {
-            const question = combinedQuestions[index];
+            const question = allQuestions[userAnswer.questionIndex];
             const isCtiQuestion = 'domain' in question;
             const userAnswerIndex = userAnswer.answerIndex;
 
