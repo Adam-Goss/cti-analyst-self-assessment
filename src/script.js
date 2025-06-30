@@ -12,6 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let reviewIndex = null;
     let infoStepShown = false;
 
+    // Emoji map for domains
+    const domainEmojis = {
+        'Technical Foundations': '💻',
+        'Threat Intelligence Fundamentals': '🕵️‍♂️',
+        'Analytical Skills': '🧠',
+        'Tool and Technologies': '🛠️',
+        'Communication and Collaboration': '💬',
+        'Industry Knowledge': '🌐',
+        'Learning Style': '🎓',
+        'Career Goals': '🚀'
+    };
+
     async function loadQuestions() {
         try {
             const res = await fetch('../data/questions.json');
@@ -50,17 +62,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const combinedQuestions = [...allQuestions, ...learningQuestions];
         // Show info step before learning style questions
         if (!infoStepShown && currentQuestionIndex === allQuestions.length) {
-            quizContainer.classList.add('opacity-0');
+            quizContainer.classList.add('opacity-0', direction === 'forward' ? 'translate-x-8' : '-translate-x-8');
             setTimeout(() => {
                 quizContainer.innerHTML = `
-                    <div class="flex flex-col items-center justify-center min-h-[200px]">
-                        <div class="text-blue-700 text-2xl mb-4">ℹ️</div>
+                    <div class="flex flex-col items-center justify-center min-h-[200px] animate-fade-in">
+                        <div class="text-blue-700 text-3xl mb-4">ℹ️</div>
                         <h2 class="text-xl font-bold mb-2">Learning Style & Areas of Interest</h2>
                         <p class="mb-6 text-gray-700 text-center">The following questions are about your learning style and areas of interest. <br>These are <b>not marked</b> and will not affect your score.</p>
-                        <button id="continue-btn" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">Continue</button>
+                        <button id="continue-btn" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all">Continue</button>
                     </div>
                 `;
-                quizContainer.classList.remove('opacity-0');
+                quizContainer.classList.remove('opacity-0', 'translate-x-8', '-translate-x-8');
                 quizContainer.classList.add('opacity-100');
                 setTimeout(() => { animating = false; }, 200);
                 document.getElementById('continue-btn').focus();
@@ -78,8 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Animation: fade out
-        quizContainer.classList.add('opacity-0');
+        // Animation: fade/slide out
+        quizContainer.classList.add('opacity-0', direction === 'forward' ? 'translate-x-8' : '-translate-x-8');
         setTimeout(() => {
             const question = combinedQuestions[currentQuestionIndex];
             const isLearningQuestion = currentQuestionIndex >= allQuestions.length;
@@ -92,12 +104,17 @@ document.addEventListener('DOMContentLoaded', () => {
             reviewMode = currentQuestionIndex < userAnswers.length;
             reviewIndex = reviewMode ? userAnswers[currentQuestionIndex].answerIndex : null;
 
+            // Domain badge
+            let domain = question.domain || question.type;
+            let emoji = domainEmojis[domain] || '❓';
+            let domainBadge = `<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-800 mb-4 shadow-sm">${emoji} ${domain}</span>`;
+
             let optionsHTML = '';
             question.options.forEach((option, index) => {
                 const isSelected = reviewMode && reviewIndex === index;
                 optionsHTML += `
                     <button 
-                        class="block w-full text-left bg-gray-100 p-4 rounded-lg my-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 hover:bg-blue-100 transition-colors duration-150 ${isSelected ? 'ring-2 ring-blue-500 bg-blue-50 font-bold' : ''}"
+                        class="block w-full text-left bg-white p-4 rounded-xl my-2 border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 hover:bg-blue-50 transition-all duration-150 text-lg font-medium ${isSelected ? 'ring-2 ring-blue-500 bg-blue-100 font-bold' : ''}"
                         data-index="${index}"
                         tabindex="0"
                         aria-label="${option}"
@@ -109,29 +126,30 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             quizContainer.innerHTML = `
-                <div class="mb-4">
-                    <div class="flex items-center justify-between mb-1">
-                        <p class="text-sm text-gray-600">${progressText}</p>
-                        <span class="text-xs text-gray-500">${currentQuestionIndex + 1}/${combinedQuestions.length}</span>
+                <div>
+                    <div class="mb-4">
+                        <div class="flex items-center justify-between mb-1">
+                            <p class="text-sm text-gray-600">${progressText}</p>
+                            <span class="text-xs text-gray-500">${currentQuestionIndex + 1}/${combinedQuestions.length}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="bg-blue-600 h-3 rounded-full transition-all duration-300" style="width: ${progressPercent}%"></div>
+                        </div>
                     </div>
-                    <div class="w-full bg-gray-300 rounded-full h-3">
-                        <div class="bg-blue-600 h-3 rounded-full transition-all duration-300" style="width: ${progressPercent}%"></div>
-                    </div>
-                </div>
-                <div class="relative">
-                    <h2 class="text-2xl font-bold mb-6">${question.question}</h2>
-                    <div>
-                        ${optionsHTML}
-                    </div>
-                    <div class="flex justify-between mt-6">
-                        <button id="back-btn" class="${currentQuestionIndex === 0 ? 'invisible' : ''} bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Go to previous question">Back</button>
-                        <button id="next-btn" class="${reviewMode ? '' : 'hidden'} bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Go to next question">Next</button>
+                    <div class="relative flex flex-col items-center">
+                        ${domainBadge}
+                        <h2 class="text-2xl font-bold mb-6 text-center">${question.question}</h2>
+                        <div class="w-full">${optionsHTML}</div>
+                        <div class="flex justify-between mt-8 w-full">
+                            <button id="back-btn" class="${currentQuestionIndex === 0 ? 'invisible' : ''} bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all" aria-label="Go to previous question">← Back</button>
+                            <button id="next-btn" class="${reviewMode ? '' : 'hidden'} bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all" aria-label="Go to next question">Next →</button>
+                        </div>
                     </div>
                 </div>
             `;
 
             // Animate in
-            quizContainer.classList.remove('opacity-0');
+            quizContainer.classList.remove('opacity-0', 'translate-x-8', '-translate-x-8');
             quizContainer.classList.add('opacity-100');
             setTimeout(() => { animating = false; }, 200);
 
@@ -193,6 +211,14 @@ document.addEventListener('DOMContentLoaded', () => {
         quizContainer.classList.add('hidden');
         resultsContainer.classList.remove('hidden');
 
+        const proficiencyEmojis = {
+            'Expert': '🏆',
+            'Advanced': '🥇',
+            'Intermediate': '🥈',
+            'Beginner': '🥉',
+            'Novice': '🔰'
+        };
+
         const domainScores = {};
         const maxDomainScores = {};
         const ctiAnswers = userAnswers.slice(0, allQuestions.length);
@@ -233,27 +259,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const proficiency = getProficiency(overallPercentage);
+        const proficiencyEmoji = proficiencyEmojis[proficiency] || '🔰';
 
         // Find weakest domains
         const sortedDomains = Object.keys(domainPercentages).sort((a, b) => domainPercentages[a] - domainPercentages[b]);
         const weakestDomains = sortedDomains.slice(0, 2).filter(domain => domainPercentages[domain] < 70); // Show up to 2 weakest domains below Intermediate
 
         let resultsHTML = `
-            <div class="text-center">
-                <h2 class="text-3xl font-bold mb-2">Assessment Complete</h2>
-                <p class="text-xl">Your Overall Score: <span class="font-bold">${overallPercentage.toFixed(1)}%</span></p>
-                <p class="text-2xl font-bold text-blue-600">${proficiency}</p>
-            </div>
+            <div class="animate-fade-in-slide max-w-xl mx-auto">
+                <div class="text-center mb-8">
+                    <div class="text-5xl mb-2">${proficiencyEmoji}</div>
+                    <h2 class="text-3xl font-bold mb-2">Assessment Complete</h2>
+                    <p class="text-xl">Your Overall Score: <span class="font-bold">${overallPercentage.toFixed(1)}%</span></p>
+                    <p class="text-2xl font-bold text-blue-600 flex items-center justify-center gap-2">${proficiencyEmoji} ${proficiency}</p>
+                </div>
 
-            <div class="my-8">
-                <h3 class="text-2xl font-bold mb-4">Domain Scores</h3>
+                <div class="my-8">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">📊 Domain Scores</h3>
         `;
 
         for (const domain in domainPercentages) {
             resultsHTML += `
                 <div class="mb-4">
-                    <div class="flex justify-between mb-1">
-                        <span class="text-base font-medium">${domain}</span>
+                    <div class="flex justify-between mb-1 items-center">
+                        <span class="text-base font-medium flex items-center gap-2">${domainEmojis[domain] || '❓'} ${domain}</span>
                         <span class="text-sm font-medium">${domainPercentages[domain].toFixed(1)}%</span>
                     </div>
                     <div class="w-full bg-gray-200 rounded-full h-4">
@@ -267,69 +296,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (weakestDomains.length > 0) {
             resultsHTML += `
-                <div class="my-8 p-4 bg-yellow-100 border-l-4 border-yellow-500">
-                    <h3 class="text-xl font-bold mb-2">Areas for Improvement</h3>
+                <div class="my-8 p-4 bg-yellow-50 border-l-4 border-yellow-400 flex gap-4 items-start">
+                    <span class="text-3xl mt-1">⚠️</span>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">Areas for Improvement</h3>
             `;
             weakestDomains.forEach(domain => {
-                resultsHTML += `<p class="mb-2"><strong>${domain}:</strong> ${allDomainFeedback[domain]}</p>`;
+                resultsHTML += `<p class="mb-2 flex items-center gap-2"><span>${domainEmojis[domain] || '❓'}</span><strong>${domain}:</strong> ${allDomainFeedback[domain]}</p>`;
             });
-            resultsHTML += `</div>`;
+            resultsHTML += `</div></div>`;
         }
 
-        // Answer Review Section
-        let answerReviewHTML = `
-            <div class="my-8">
-                <details>
-                    <summary class="text-xl font-bold cursor-pointer hover:text-blue-600">Review Your Answers</summary>
-                    <div class="mt-4 border-t pt-4">
-        `;
-
-        const combinedQuestions = [...allQuestions, ...learningQuestions];
-        userAnswers.forEach((userAnswer, index) => {
-            const question = combinedQuestions[index];
-            const isCtiQuestion = 'domain' in question;
-            const userAnswerIndex = userAnswer.answerIndex;
-
-            answerReviewHTML += `
-                <div class="mb-6 p-4 rounded-lg ${isCtiQuestion && userAnswerIndex !== question.answer ? 'bg-red-50' : 'bg-green-50'}">
-                    <p class="font-bold">${index + 1}. ${question.question}</p>
-                    <ul class="list-disc pl-5 mt-2">
-            `;
-
-            question.options.forEach((option, optionIndex) => {
-                let indicator = '';
-                if (optionIndex === userAnswerIndex) {
-                    indicator = ` (Your answer)`;
-                }
-                if (isCtiQuestion && optionIndex === question.answer) {
-                    indicator += ` (Correct answer)`;
-                }
-
-                let textColor = 'text-gray-800';
-                if (isCtiQuestion) {
-                    if (optionIndex === question.answer) {
-                        textColor = 'text-green-700 font-bold';
-                    }
-                    if (optionIndex === userAnswerIndex && userAnswerIndex !== question.answer) {
-                        textColor = 'text-red-700 font-bold';
-                    }
-                } else {
-                     if (optionIndex === userAnswerIndex) {
-                        textColor = 'text-blue-700 font-bold';
-                    }
-                }
-
-
-                answerReviewHTML += `<li class="${textColor}">${option}${indicator}</li>`;
-            });
-
-            answerReviewHTML += `</ul></div>`;
-        });
-        
-        answerReviewHTML += `</div></details></div>`;
-
-        resultsHTML += answerReviewHTML;
-        
         // --- Future Roadmap Section ---
         // Find preferred learning style and area of interest
         let preferredLearningStyle = null;
@@ -364,25 +341,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (preferredLearningStyle && areaOfInterest) {
             resultsHTML += `
-                <div class="my-8 p-4 bg-blue-50 border-l-4 border-blue-400">
-                    <h3 class="text-xl font-bold mb-2">Future Roadmap</h3>
-                    <p><b>Preferred Learning Style:</b> ${preferredLearningStyle}</p>
-                    <p><b>Area of Interest in CTI:</b> ${areaOfInterest}</p>
-                    <p class="mt-2">${advice}</p>
+                <div class="my-8 p-4 bg-blue-50 border-l-4 border-blue-400 flex gap-4 items-start">
+                    <span class="text-3xl mt-1">🧭</span>
+                    <div>
+                        <h3 class="text-xl font-bold mb-2">Future Roadmap</h3>
+                        <p><b>Preferred Learning Style:</b> ${preferredLearningStyle}</p>
+                        <p><b>Area of Interest in CTI:</b> ${areaOfInterest}</p>
+                        <p class="mt-2">${advice}</p>
+                    </div>
                 </div>
             `;
         }
 
+        // Answer Review Section
+        let answerReviewHTML = `
+            <div class="my-8">
+                <details>
+                    <summary class="text-xl font-bold cursor-pointer hover:text-blue-600">📝 Review Your Answers</summary>
+                    <div class="mt-4 border-t pt-4">
+        `;
+
+        const combinedQuestions = [...allQuestions, ...learningQuestions];
+        userAnswers.forEach((userAnswer, index) => {
+            const question = combinedQuestions[index];
+            const isCtiQuestion = 'domain' in question;
+            const userAnswerIndex = userAnswer.answerIndex;
+
+            answerReviewHTML += `
+                <div class="mb-6 p-4 rounded-lg ${isCtiQuestion && userAnswerIndex !== question.answer ? 'bg-red-50' : 'bg-green-50'}">
+                    <p class="font-bold flex items-center gap-2">${isCtiQuestion ? (domainEmojis[question.domain] || '❓') : '❓'} ${index + 1}. ${question.question}</p>
+                    <ul class="list-disc pl-5 mt-2">
+            `;
+
+            question.options.forEach((option, optionIndex) => {
+                let indicator = '';
+                if (optionIndex === userAnswerIndex) {
+                    indicator = ` (Your answer)`;
+                }
+                if (isCtiQuestion && optionIndex === question.answer) {
+                    indicator += ` (Correct answer)`;
+                }
+
+                let textColor = 'text-gray-800';
+                if (isCtiQuestion) {
+                    if (optionIndex === question.answer) {
+                        textColor = 'text-green-700 font-bold';
+                    }
+                    if (optionIndex === userAnswerIndex && userAnswerIndex !== question.answer) {
+                        textColor = 'text-red-700 font-bold';
+                    }
+                } else {
+                     if (optionIndex === userAnswerIndex) {
+                        textColor = 'text-blue-700 font-bold';
+                    }
+                }
+
+                answerReviewHTML += `<li class="${textColor}">${option}${indicator}</li>`;
+            });
+
+            answerReviewHTML += `</ul></div>`;
+        });
+        
+        answerReviewHTML += `</div></details></div>`;
+
+        resultsHTML += answerReviewHTML;
+        
         resultsHTML += `
             <div class="text-center mt-8">
-                <button onclick="window.location.reload()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">
+                <button onclick="window.location.reload()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition-all">
                     Retake Assessment
                 </button>
             </div>
         `;
 
-        resultsContainer.innerHTML = resultsHTML;
+        resultsContainer.innerHTML = `<div class="animate-fade-in-slide">${resultsHTML}</div>`;
     }
 
     loadQuestions();
+
+    // Add animation styles
+    const style = document.createElement('style');
+    style.innerHTML = `
+    @keyframes fade-in-slide {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-slide { animation: fade-in-slide 0.4s cubic-bezier(.4,0,.2,1); }
+    .animate-fade-in { animation: fade-in-slide 0.4s cubic-bezier(.4,0,.2,1); }
+    `;
+    document.head.appendChild(style);
 }); 
