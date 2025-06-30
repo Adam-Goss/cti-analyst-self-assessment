@@ -33,6 +33,18 @@
             "points": 10
         },
         {
+            "domain": "Technical Foundations",
+            "question": "What is the primary purpose of the 'netstat' command in Unix-like systems?",
+            "options": [
+                "To display network connections and statistics.",
+                "To monitor system performance.",
+                "To manage user accounts.",
+                "To create new network interfaces."
+            ],
+            "answer": 0,
+            "points": 10
+        },
+        {
             "domain": "Threat Intelligence Fundamentals",
             "question": "What is the first phase of the traditional intelligence cycle?",
             "options": [
@@ -54,7 +66,7 @@
                 "Hindsight Bias"
             ],
             "answer": 1,
-            "points": 15
+            "points": 10
         },
         {
             "domain": "Tool and Technologies",
@@ -90,7 +102,7 @@
                 "Security Controls for Federal Information Systems"
             ],
             "answer": 1,
-            "points": 15
+            "points": 10
         }
     ]
 } 

@@ -460,7 +460,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <details>
                     <summary class="text-xl font-bold cursor-pointer hover:text-[#C6372F]">🚀 Next Steps: Recommended Services</summary>
                     <div class="mt-4 border-t pt-6">
-                        <p class="mb-6 text-base text-gray-700">Based on your results, here are some professional services from <a href="https://kravensecurity.com/" target="_blank" class="text-[#C6372F] hover:underline font-semibold">Kraven Security</a> that can help you level up your CTI skills.</p>
+                        <div class="flex items-start gap-4 mb-6">
+                            <img src="../src/kraven-security-logo.jpg" alt="Kraven Security Logo" class="w-16 h-16 rounded-lg shadow-md">
+                            <p class="flex-1 text-base text-gray-700">Based on your results, here are some professional services from <a href="https://kravensecurity.com/" target="_blank" class="text-[#C6372F] hover:underline font-semibold">Kraven Security</a> that can help you level up your CTI skills.</p>
+                        </div>
                         <div class="space-y-4">
         `;
         
