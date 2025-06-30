@@ -14,12 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadQuestions() {
         try {
-            const res = await fetch('questions.json');
+            const res = await fetch('../data/questions.json');
             const data = await res.json();
             allQuestions = data.questions;
             allDomainFeedback = data.domains;
 
-            const learningRes = await fetch('learning_style.json');
+            const learningRes = await fetch('../data/learning_style.json');
             const learningData = await learningRes.json();
             learningQuestions = learningData.questions;
             

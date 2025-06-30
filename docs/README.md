@@ -1,0 +1,63 @@
+# CTI Analyst Self-Assessment Web Application
+
+## Overview
+
+The CTI Analyst Self-Assessment is a web application designed to help users identify their skills gaps in Cyber Threat Intelligence (CTI) across key domains. The app presents a multiple-choice questionnaire, calculates scores by domain, and provides personalized feedback and a future learning roadmap based on user responses.
+
+## Project Structure
+
+```
+cti-analyst-self-assessment/
+├── public/                # Static assets (index.html)
+├── src/                   # Application source code (JavaScript)
+├── data/                  # JSON data files (questions, learning style)
+├── docs/                  # Documentation (README, PRD)
+├── tasks_old/             # Archived tasks (if any)
+```
+
+- `public/index.html` — Main HTML file
+- `src/script.js` — Application logic
+- `data/questions.json` — CTI assessment questions and feedback
+- `data/learning_style.json` — Learning style and career interest questions
+- `docs/README.md` — This documentation
+- `docs/prd-cti-analyst-self-assessment.md` — Product requirements document
+
+## Features
+- Multiple-choice questionnaire grouped by CTI domains
+- Weighted scoring per question and domain
+- Results page with overall and domain-specific scores, proficiency level, and targeted feedback
+- Review of all answers with correct/incorrect highlighting
+- Additional questions on learning style and CTI career interests (not scored)
+- Personalized future roadmap advice based on learning style and area of interest
+- Responsive, accessible, and user-friendly interface using HTML, Tailwind CSS, and vanilla JavaScript
+
+## Getting Started
+
+### Prerequisites
+- A modern web browser
+- Python (for running a local server) or Node.js (for alternatives)
+
+### Setup
+1. **Clone or download this repository.**
+2. **Start a local web server in the project directory:**
+   - With Python 3:
+     ```
+     python -m http.server 8000
+     ```
+   - Or with Node.js:
+     ```
+     npx serve .
+     ```
+3. **Open your browser and go to:**
+   ```
+   http://localhost:8000/public/
+   ```
+
+> **Note:** Opening `index.html` directly will not work due to browser security restrictions on loading local JSON files.
+
+## Customization
+- Edit `data/questions.json` to add or modify assessment questions and feedback.
+- Edit `data/learning_style.json` to change learning style or career interest questions.
+
+## License
+This project is licensed under the MIT License. 
