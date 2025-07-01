@@ -21,11 +21,47 @@ The CTI Analyst Self-Assessment is a web application designed to help users iden
 
 ## Getting Started
 
-### Prerequisites
+You can run this application either using Docker (recommended) or a local web server.
+
+### Option 1: Docker (Recommended)
+
+#### Prerequisites
+- Docker
+- Docker Compose
+
+#### Running with Docker Compose
+1. **Clone or download this repository.**
+2. **Start the application:**
+   ```bash
+   docker-compose up -d
+   ```
+3. **Open your browser and go to:**
+   ```
+   http://localhost:8080
+   ```
+
+To stop the application:
+```bash
+docker-compose down
+```
+
+To view logs:
+```bash
+docker-compose logs -f
+```
+
+To rebuild and restart (if you make changes to the Dockerfile):
+```bash
+docker-compose up -d --build
+```
+
+### Option 2: Local Web Server
+
+#### Prerequisites
 - A modern web browser
 - Python (for running a local server) or Node.js (for alternatives)
 
-### Setup
+#### Setup
 1. **Clone or download this repository.**
 2. **Start a local web server in the project directory:**
    - With Python 3:
@@ -43,16 +79,34 @@ The CTI Analyst Self-Assessment is a web application designed to help users iden
 
 > **Note:** Opening `index.html` directly will not work due to browser security restrictions on loading local JSON files.
 
-### File Structure
-- `index.html` — Main HTML file
-- `script.js` — Application logic
-- `questions.json` — CTI assessment questions and feedback
-- `learning_style.json` — Learning style and career interest questions
-- `tasks/prd-cti-analyst-self-assessment.md` — Product requirements document
+### Project Structure
+```
+.
+├── docs/                   # Application root
+│   ├── data/              # JSON data files
+│   │   ├── learning_style.json
+│   │   └── questions.json
+│   ├── src/               # Source files
+│   │   ├── kraven-security-logo.jpg
+│   │   └── script.js
+│   └── index.html         # Main HTML file
+├── docker-compose.yml     # Docker Compose configuration
+├── Dockerfile            # Docker container definition
+├── LICENSE              # MIT License
+└── README.md           # This file
+```
 
-## Customization
-- Edit `questions.json` to add or modify assessment questions and feedback.
-- Edit `learning_style.json` to change learning style or career interest questions.
+## Development
+
+### Making Changes
+When running with Docker Compose, the application files are mounted as a volume. This means:
+- Changes to files in the `docs` directory will be reflected immediately
+- No container rebuild is needed for content changes
+- Container will automatically restart if it crashes
+
+### Customization
+- Edit `docs/data/questions.json` to add or modify assessment questions and feedback
+- Edit `docs/data/learning_style.json` to change learning style or career interest questions
 
 ## License
 This project is licensed under the MIT License.
